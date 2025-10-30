@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:padding="16dp"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <EditText
         android:id="@+id/etNumber"
@@ -10,6 +12,7 @@
         android:inputType="number"
         android:hint="Enter a number" />
 
+    <!-- Row with Generate and History -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,13 +33,6 @@
             android:layout_weight="1"
             android:text="History"
             android:layout_marginStart="8dp" />
-        <Button
-            android:id="@+id/btnClearAll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Clear All"
-            android:layout_marginTop="12dp"/>
-
     </LinearLayout>
 
     <ListView
@@ -45,4 +41,12 @@
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
         android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btnClearAll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Clear All"
+        android:layout_marginTop="12dp" />
+
 </LinearLayout>
