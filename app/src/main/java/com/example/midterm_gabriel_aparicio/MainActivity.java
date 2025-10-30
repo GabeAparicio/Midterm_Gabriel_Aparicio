@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private EditText etNumber;
-    private Button btnGenerate, btnHistory;
+    private Button btnGenerate, btnHistory, btnClearAll;
     private ListView lvTable;
 
     private ArrayList<String> currentTable = new ArrayList<>();
@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
         btnGenerate = findViewById(R.id.btnGenerate);
         btnHistory = findViewById(R.id.btnHistory);
         lvTable = findViewById(R.id.lvTable);
+        btnClearAll = findViewById(R.id.btnClearAll);
 
-        // Restore state on rotation (nice-to-have)
         if (savedInstanceState != null) {
             currentTable = savedInstanceState.getStringArrayList(KEY_TABLE);
             if (currentTable == null) currentTable = new ArrayList<>();
@@ -61,19 +61,16 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-
             currentTable.clear();
             for (int i = 1; i <= 10; i++) {
                 currentTable.add(n + " × " + i + " = " + (n * i));
             }
             tableAdapter.notifyDataSetChanged();
 
-            // Track history of numbers generated
             if (!historyNumbers.contains(n)) {
                 historyNumbers.add(n);
             }
         });
-
 
         lvTable.setOnItemClickListener((parent, view, position, id) -> {
             final String item = currentTable.get(position);
@@ -89,11 +86,29 @@ public class MainActivity extends AppCompatActivity {
                     .show();
         });
 
-
         btnHistory.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
             intent.putIntegerArrayListExtra("history", historyNumbers);
             startActivity(intent);
+        });
+
+        // BONUS: Clear All feature attempt
+        btnClearAll.setOnClickListener(v -> {
+            if (currentTable.isEmpty()) {
+                Toast.makeText(this, "Nothing to clear.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Clear all?")
+                    .setMessage("Do you want to delete all rows?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        currentTable.clear();
+                        tableAdapter.notifyDataSetChanged();
+                        Toast.makeText(this, "All rows cleared.", Toast.LENGTH_SHORT).show();
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
         });
     }
 
